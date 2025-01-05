@@ -1,0 +1,14 @@
+import React from 'react'
+import { APP_NAME } from '@/lib/constans'
+
+function Footer(props) {
+	return (
+		<footer className={'border-t'}>
+			<div className="p-5 flex-center">
+				&copy; {new Date().getFullYear()} {APP_NAME} | All rights reserved
+			</div>
+		</footer>
+	)
+}
+
+export default Footer
