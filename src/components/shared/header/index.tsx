@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { APP_NAME } from '@/lib/constans'
 import { Button } from '@/components/ui/button'
 import ThemeSwitcher from '@/components/shared/header/theme-switcher'
+import Menu from '@/components/shared/header/menu'
 
 function Header(props) {
 	return (
@@ -18,20 +19,7 @@ function Header(props) {
 				</div>
 
 				<div className="space-x-3">
-					<ThemeSwitcher />
-
-					<Button asChild variant="ghost">
-						<Link href={'/cart'}>
-							<ShoppingCart />
-							Cart
-						</Link>
-					</Button>
-
-					<Button asChild>
-						<Link href={'/sign-in'}>
-							<UserIcon /> Sign In
-						</Link>
-					</Button>
+					<Menu />
 				</div>
 			</div>
 		</header>
