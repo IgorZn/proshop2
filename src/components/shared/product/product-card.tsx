@@ -2,6 +2,7 @@ import React from 'react'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import Link from 'next/link'
 import Image from 'next/image'
+import ProductPrice from '@/components/shared/product/product-price'
 
 function ProductCard({ product }: object) {
 	return (
@@ -17,7 +18,11 @@ function ProductCard({ product }: object) {
 				</Link>
 				<div className="flex-between gap-4">
 					<p>{product.rating} Stars</p>
-					{product.stock > 0 ? <p className={'font-bold'}>${product.price}</p> : <p>Out of Stock</p>}
+					{product.stock > 0 ? (
+						<ProductPrice value={product.price} />
+					) : (
+						<p className={'text-2xl font-light text-destructive'}>Out of Stock</p>
+					)}
 				</div>
 			</CardContent>
 		</Card>
