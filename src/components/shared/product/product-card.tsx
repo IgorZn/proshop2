@@ -9,8 +9,9 @@ function ProductCard({ product }: Product) {
 	return (
 		<Card className={'w-full max-w-sm'}>
 			<CardHeader className={'items-center p-0'}>
-				<Link href={`/product/${product.slug}`} />
-				<Image src={product.images[0]} alt={product.name} width={300} height={300} priority={true} />
+				<Link href={`/product/${product.slug}`}>
+					<Image src={product.images[0]} alt={product.name} width={300} height={300} priority={true} />
+				</Link>
 			</CardHeader>
 			<CardContent className={'grid gap-4 p-4'}>
 				<div className="text-sm">{product.brand}</div>

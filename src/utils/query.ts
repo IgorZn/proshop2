@@ -1,9 +1,9 @@
 'use server'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '@/db/prisma'
 import { LATEST_PRODUCT_LIMIT } from '@/lib/constans'
 
 export const getProducts = async () => {
-	return new PrismaClient().product.findMany({
+	return prisma.product.findMany({
 		take: LATEST_PRODUCT_LIMIT,
 		orderBy: {
 			createdAt: 'desc',

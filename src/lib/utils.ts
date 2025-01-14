@@ -5,10 +5,10 @@ export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs))
 }
 
-export const validateFormatPrice = (price: number) =>
+export const validateFormatPrice = (price: number, currency: string = 'USD') =>
 	new Intl.NumberFormat('en-US', {
 		style: 'currency',
-		currency: 'USD',
+		currency,
 	})
 		.format(price)
 		.replace('$', '')

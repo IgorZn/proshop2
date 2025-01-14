@@ -1,9 +1,10 @@
 import React from 'react'
-import { cn } from '@/lib/utils'
+import { cn, validateFormatPrice } from '@/lib/utils'
 
-function ProductPrice({ value, className }: { value: number; className?: string }) {
-	const stringValue = value.toFixed(2)
-	const [int, decimal] = stringValue.split('.')
+function ProductPrice({ value, className }: { value: string; className?: string }) {
+	// console.log('ProductPrice>>>', typeof validateFormatPrice(Number(value)))
+	const price = validateFormatPrice(Number(value))
+	const [int, decimal] = price.split('.')
 	return (
 		<p className={cn('text-2xl', className)}>
 			<span className="align-super text-xs">$</span>

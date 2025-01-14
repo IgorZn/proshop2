@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button'
-import '@/app/globals.css'
 import ProductList from '@/components/shared/product/product-list'
 import { getProducts } from '@/utils/query'
 
