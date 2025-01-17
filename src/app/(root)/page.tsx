@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button'
 import ProductList from '@/components/shared/product/product-list'
 import { getProducts } from '@/utils/query'
+import { Product } from '@/types'
 
 export default async function Home() {
-	const latestProduct = await getProducts()
+	const latestProduct: Product[] = await getProducts()
 
 	return (
 		<div>

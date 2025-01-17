@@ -48,7 +48,7 @@ async function ProductDetailPage({ params: { slug } }: { params: { slug: string 
 								<div className="mb-2 flex justify-between">
 									<p>Status</p>
 									{product.stock > 0 ? (
-										<Badge variant="success">In Stock</Badge>
+										<Badge>In Stock</Badge>
 									) : (
 										<Badge variant="destructive">Out of Stock</Badge>
 									)}

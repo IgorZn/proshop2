@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import ThemeSwitcher from '@/components/shared/header/theme-switcher'
 import Menu from '@/components/shared/header/menu'
 
-function Header(props) {
+function Header() {
 	return (
 		<header className={'w-full border-b'}>
 			<div className="wrapper flex-between">

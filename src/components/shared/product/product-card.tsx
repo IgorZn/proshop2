@@ -5,7 +5,7 @@ import Image from 'next/image'
 import ProductPrice from '@/components/shared/product/product-price'
 import { Product } from '@/types'
 
-function ProductCard({ product }: Product) {
+function ProductCard({ product }: { product: Product }) {
 	return (
 		<Card className={'w-full max-w-sm'}>
 			<CardHeader className={'items-center p-0'}>

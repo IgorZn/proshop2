@@ -1,7 +1,7 @@
 import React from 'react'
 import { APP_NAME } from '@/lib/constans'
 
-function Footer(props) {
+function Footer() {
 	return (
 		<footer className={'border-t'}>
 			<div className="flex-center p-5">

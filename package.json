@@ -2,6 +2,7 @@
   "name": "nextjs-prj2",
   "version": "0.1.0",
   "private": true,
+  "eslintIgnore": ["**/db/*", "**/ui/*"],
   "scripts": {
     "dev": "next dev",
     "build": "next build",

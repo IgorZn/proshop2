@@ -7,5 +7,5 @@ export const getBySlug = async (slug: string) => {
 			slug,
 		},
 	})
-	return product
+	return JSON.parse(JSON.stringify(product))
 }

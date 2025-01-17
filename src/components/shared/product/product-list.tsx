@@ -2,7 +2,7 @@ import React from 'react'
 import ProductCard from '@/components/shared/product/product-card'
 import { Product } from '@/types'
 
-function ProductList({ data, title, limit }: { data: Product; title?: string; limit?: number }) {
+function ProductList({ data, title, limit }: { data: Product[]; title?: string; limit?: number }) {
 	const limitProducts = limit ? data.slice(0, limit) : data
 
 	return (
