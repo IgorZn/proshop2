@@ -4,6 +4,15 @@ import sampleData from '@/db/sample-data'
 import { createHash } from 'crypto'
 
 const prisma = new PrismaClient()
+const updatedSample = {
+	users: [...sampleData.users],
+	products: sampleData.products.map(product => {
+		return {
+			...product,
+			price: product.price.toString(),
+		}
+	}),
+}
 
 type User = {
 	name: string
@@ -12,25 +21,25 @@ type User = {
 	role: string
 }
 
-// async function addUsers(users: Array<User>) {
-// 	const users = []
-// 	for (let i = 0; i < sampleData.users.length; i++) {
-// 		users.push({
-// 			...sampleData.users[i],
-// 			password: createHash('sha256').update(sampleData.users[i].password).digest('hex'),
-// 		})
-// 	}
-// 	await prisma.user.createMany({ skipDuplicates: true, data: users })
-// }
+async function addUsers(users: Array<User>) {
+	const newUsers = []
+	for (let i = 0; i < sampleData.users.length; i++) {
+		newUsers.push({
+			...sampleData.users[i],
+			password: createHash('sha256').update(sampleData.users[i].password).digest('hex'),
+		})
+	}
+	await prisma.user.createMany({ skipDuplicates: true, data: newUsers })
+}
 
 async function main() {
 	console.time('Seeding complete 🌱')
 
 	console.log('Loading sample product data...')
-	await prisma.product.createMany({ skipDuplicates: true, data: sampleData.products })
+	await prisma.product.createMany({ skipDuplicates: true, data: updatedSample.products })
 
-	// console.log('Loading sample user data...')
-	// await addUsers(sampleData.users)
+	console.log('Loading sample user data...')
+	await addUsers(sampleData.users)
 
 	console.timeEnd('Seeding complete 🌱')
 }
