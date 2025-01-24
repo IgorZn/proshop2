@@ -1,16 +1,19 @@
-import NextAuth, { NextAuthOptions } from 'next-auth'
+import NextAuth, { getServerSession, NextAuthOptions } from 'next-auth'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { prisma } from '@/db/prisma'
 import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { comparePassword } from '@/utils/userUtils'
+import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from 'next'
+// import { getServerSession } from 'next-auth'
+// import type { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from 'next'
 
 export const authOptions = {
 	adapter: PrismaAdapter(prisma),
 	pages: {
-		signIn: '/login',
-		signOut: '/logout',
+		signIn: '/sign-in',
+		signOut: '/sign-out',
 	},
 	session: {
 		strategy: 'jwt',
@@ -35,19 +38,26 @@ export const authOptions = {
 
 			async authorize(credentials) {
 				if (credentials == null) return null
+				// console.log('authorize>>>', credentials)
 
 				const user = await prisma.user.findFirst({
 					where: {
 						email: credentials.email as string,
 					},
 				})
+				// console.log('authorize>>>', user)
 
 				// Check if the user has a password
 				if (user && user.password) {
 					const isMatch = comparePassword(credentials.password as string, user.password)
 
 					// Check if the password matches
-					if (isMatch)
+					if (isMatch) {
+						console.group('isMatch>>>')
+						console.log(isMatch)
+						console.log(credentials.password, user.password)
+						console.log(user)
+						console.groupEnd()
 						return {
 							id: user.id,
 							name: user.name,
@@ -55,6 +65,7 @@ export const authOptions = {
 							image: user.image,
 							role: user.role,
 						}
+					}
 				}
 
 				// Return null if the user does not exist or has no password
@@ -73,3 +84,11 @@ export const authOptions = {
 } satisfies NextAuthOptions
 
 export default NextAuth(authOptions)
+
+// export const { handlers, auth, signIn, signOut } = NextAuth(authOptions)
+
+export function auth(
+	...args: [GetServerSidePropsContext['req'], GetServerSidePropsContext['res']] | [NextApiRequest, NextApiResponse] | []
+) {
+	return getServerSession(...args, authOptions)
+}

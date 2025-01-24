@@ -1,4 +1,4 @@
-'use server'
+'use client'
 
 import { signInFormValidator } from '@/lib/validator'
 import { signIn, signOut } from 'next-auth/react'
@@ -10,7 +10,7 @@ export async function signInAction(prevState: unknown, formData: FormData) {
 			email: formData.get('email'),
 			password: formData.get('password'),
 		})
-
+		console.log('signInAction')
 		await signIn('credentials', user)
 		return { success: true, message: 'Signed in successfully' }
 	} catch (e) {

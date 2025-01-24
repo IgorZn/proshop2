@@ -1,4 +1,31 @@
-const sampleData = {
+export interface IProduct {
+	name: string
+	slug: string
+	category: string
+	description: string
+	images: string[]
+	price: number
+	brand: string
+	rating: number
+	numReviews: number
+	stock: number
+	isFeatured: boolean
+	banner: string
+}
+
+export interface IUser {
+	name: string
+	email: string
+	password: string
+	role: string
+}
+
+export interface IData {
+	users: IUser[]
+	products: IProduct[]
+}
+
+const sampleData: IData = {
 	users: [
 		{
 			name: 'John',

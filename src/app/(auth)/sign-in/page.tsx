@@ -6,12 +6,22 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { APP_NAME } from '@/lib/constans'
 import CredentialSignInForm from '@/app/(auth)/sign-in/credential-signin-form'
+import { redirect } from 'next/navigation'
+import { auth } from '@/auth'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
 	title: 'Sign in',
 }
 
-function Page(props) {
+async function Page(props) {
+	const session = await auth()
+
+	if (session?.user) {
+		redirect('/')
+	}
+
 	return (
 		<div className={'mx-auto w-full max-w-md'}>
 			<Card>

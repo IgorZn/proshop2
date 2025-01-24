@@ -1,13 +1,37 @@
 'use client'
 import React from 'react'
+import { useFormState } from 'react-dom'
+import { useFormStatus } from 'react-dom'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { signInDefaults } from '@/lib/constans'
 import Link from 'next/link'
+import { signInAction } from '@/lib/actions/user.actions'
+import { Button } from '@/components/ui/button'
 
 function CredentialSignInForm(props) {
+	const [data, action] = useFormState(signInAction, {
+		success: false,
+		message: '',
+	})
+
+	const SignInButton = () => {
+		const { pending } = useFormStatus()
+		return (
+			<div>
+				<Button
+					disabled={pending}
+					variant="default"
+					type="submit"
+					className="w-full rounded bg-emerald-200 p-2 text-lg font-light text-black hover:bg-emerald-500">
+					{pending ? 'Signing in...' : 'Sign in'}
+				</Button>
+			</div>
+		)
+	}
+
 	return (
-		<form>
+		<form action={action}>
 			<div className="space-y-6">
 				{/* Email */}
 				<div>
@@ -41,10 +65,10 @@ function CredentialSignInForm(props) {
 
 				{/*	Button */}
 				<div>
-					<button type={'submit'} className={'w-full rounded bg-emerald-200 p-2 text-lg hover:bg-emerald-500'}>
-						Sign in
-					</button>
+					<SignInButton />
 				</div>
+
+				{data && !data.success && <p className={'text-center text-destructive'}>{data.message}</p>}
 
 				{/*	Don't have an account? */}
 				<div className={'text-center text-sm text-muted-foreground'}>
