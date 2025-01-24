@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { EllipsisVertical, ShoppingCart, UserIcon } from 'lucide-react'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import UserButton from '@/components/shared/header/user-button'
 
 function Menu() {
 	return (
@@ -18,11 +19,7 @@ function Menu() {
 					</Link>
 				</Button>
 
-				<Button asChild>
-					<Link href={'/sign-in'}>
-						<UserIcon /> Sign In
-					</Link>
-				</Button>
+				<UserButton />
 			</nav>
 
 			<nav className={'md:hidden'}>
@@ -44,12 +41,7 @@ function Menu() {
 									Cart
 								</Link>
 							</Button>
-
-							<Button asChild>
-								<Link href={'/sign-in'}>
-									<UserIcon /> Sign In
-								</Link>
-							</Button>
+							<UserButton />
 						</div>
 					</SheetContent>
 				</Sheet>
