@@ -7,3 +7,5 @@ export const comparePassword = (password: string, hashedPassword: string) => {
 	console.groupEnd()
 	return hashedPwd === hashedPassword
 }
+
+export const hashPassword = (password: string) => createHash('sha256').update(password).digest('hex')
