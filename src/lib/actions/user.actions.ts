@@ -1,7 +1,7 @@
-'use client'
+'use server'
 
 import { signInFormValidator, signUpFormValidator } from '@/lib/validator'
-import { signIn, signOut } from 'next-auth/react'
+// import { signOut } from '@/auth'
 import { isRedirectError } from 'next/dist/client/components/redirect'
 import { prisma } from '@/db/prisma'
 import { hashPassword } from '@/utils/userUtils'
@@ -13,8 +13,8 @@ export async function signInAction(prevState: unknown, formData: FormData) {
 			password: formData.get('password'),
 		})
 		console.log('signInAction')
-		await signIn('credentials', user)
-		return { success: true, message: 'Signed in successfully' }
+		// await signIn('credentials', user)
+		return { success: true, message: 'Signed in successfully', user }
 	} catch (e) {
 		console.log(e.message)
 		if (isRedirectError(e)) throw e
@@ -23,7 +23,7 @@ export async function signInAction(prevState: unknown, formData: FormData) {
 }
 
 export async function signOutAction() {
-	await signOut()
+	// await signOut()
 }
 
 export async function signUpAction(prevState: unknown, formData: FormData) {
@@ -44,7 +44,7 @@ export async function signUpAction(prevState: unknown, formData: FormData) {
 				password,
 			},
 		})
-		await signIn('credentials', { email: status.data.email, plainPassword })
+		// await signIn('credentials', { email: status.data.email, plainPassword })
 		return { success: true, message: 'Signed up successfully' }
 	} else {
 		if (isRedirectError(status.error)) throw status.error

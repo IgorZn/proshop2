@@ -1,6 +1,6 @@
 import React from 'react'
 import { auth } from '@/auth'
-import { signInAction, signOutAction } from '@/lib/actions/user.actions'
+import { signOutAction } from '@/lib/actions/user.actions'
 import { Button } from '@/components/ui/button'
 import {
 	DropdownMenu,
@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import Link from 'next/link'
 import { UserIcon } from 'lucide-react'
+import { signOut } from 'next-auth/react'
 
 async function UserButton(props) {
 	const session = await auth()
@@ -47,7 +48,8 @@ async function UserButton(props) {
 						</div>
 					</DropdownMenuLabel>
 					<DropdownMenuItem className={'mb-1 p-0'}>
-						<form action={signOutAction} className={'w-full'}>
+						<form className={'w-full'}>
+							{/* TODO: sign out */}
 							<Button className={'h-4 w-full justify-start px-2 py-4'} variant={'ghost'}>
 								Sign Out
 							</Button>

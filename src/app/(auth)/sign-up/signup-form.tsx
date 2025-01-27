@@ -1,30 +1,31 @@
 'use client'
+
 import React, { useEffect } from 'react'
-import { useFormState } from 'react-dom'
-import { useFormStatus } from 'react-dom'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
-import { signInDefaults } from '@/lib/constans'
-import Link from 'next/link'
-import { signInAction } from '@/lib/actions/user.actions'
+import { signUpDefaults } from '@/lib/constans'
+import { useFormState, useFormStatus } from 'react-dom'
+import { signUpAction } from '@/lib/actions/user.actions'
 import { Button } from '@/components/ui/button'
-import { signIn } from 'next-auth/react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
-function CredentialSignInForm(props) {
-	const [data, action] = useFormState(signInAction, {
+function SignupForm(props) {
+	const router = useRouter()
+	const { pending } = useFormStatus()
+	const [data, action] = useFormState(signUpAction, {
 		success: false,
 		message: '',
 	})
 
 	useEffect(() => {
+		console.log(data.success)
 		if (data.success) {
-			signIn('credentials', data.user)
+			router.push('/sign-in')
 		}
-	}, [data.user])
+	}, [data])
 
-	const SignInButton = () => {
-		const { pending } = useFormStatus()
-		// console.log('SignInButton>>>', data)
+	const SignUpButton = () => {
 		return (
 			<div>
 				<Button
@@ -32,7 +33,7 @@ function CredentialSignInForm(props) {
 					variant="default"
 					type="submit"
 					className="w-full rounded bg-emerald-200 p-2 text-lg font-light text-black hover:bg-emerald-500">
-					{pending ? 'Signing in...' : 'Sign in'}
+					{pending ? 'Submitting...' : 'Sign Up'}
 				</Button>
 			</div>
 		)
@@ -40,7 +41,22 @@ function CredentialSignInForm(props) {
 
 	return (
 		<form action={action}>
-			<div className="space-y-6">
+			<div className={'space-y-6'}>
+				{/* Name */}
+				<div>
+					<Label htmlFor={'name'}>Name</Label>
+					<Input
+						id={'name'}
+						name={'name'}
+						type={'text'}
+						autoComplete={'name'}
+						autoCorrect={'off'}
+						autoCapitalize={'off'}
+						required={true}
+						defaultValue={signUpDefaults.name}
+					/>
+				</div>
+
 				{/* Email */}
 				<div>
 					<Label htmlFor={'email'}>Email</Label>
@@ -52,7 +68,6 @@ function CredentialSignInForm(props) {
 						autoCorrect={'off'}
 						autoCapitalize={'off'}
 						required={true}
-						defaultValue={signInDefaults.email}
 					/>
 				</div>
 
@@ -67,25 +82,40 @@ function CredentialSignInForm(props) {
 						autoCorrect={'off'}
 						autoCapitalize={'off'}
 						required={true}
-						defaultValue={signInDefaults.password}
+						defaultValue={signUpDefaults.password}
+					/>
+				</div>
+
+				{/* Confirm Password */}
+				<div>
+					<Label htmlFor={'confirmPassword'}>Confirm Password</Label>
+					<Input
+						id={'confirmPassword'}
+						name={'confirmPassword'}
+						type={'password'}
+						autoComplete={'confirmPassword'}
+						autoCorrect={'off'}
+						autoCapitalize={'off'}
+						required={true}
+						defaultValue={signUpDefaults.confirmPassword}
 					/>
 				</div>
 
 				{/*	Button */}
 				<div>
-					<SignInButton />
+					<SignUpButton />
 				</div>
 
 				{data && !data.success && <p className={'text-center text-destructive'}>{data.message}</p>}
 
-				{/*	Don't have an account? */}
+				{/* Already have an account */}
 				<div className={'text-center text-sm text-muted-foreground'}>
-					Don&apos;t have an account?{' '}
+					Already have an account?{' '}
 					<Link
-						href={'/sign-up'}
+						href={'/sign-in'}
 						target={'_self'}
 						className={'link text-sm underline underline-offset-4 hover:text-primary'}>
-						Sign Up
+						Sign in
 					</Link>
 				</div>
 			</div>
@@ -93,4 +123,4 @@ function CredentialSignInForm(props) {
 	)
 }
 
-export default CredentialSignInForm
+export default SignupForm

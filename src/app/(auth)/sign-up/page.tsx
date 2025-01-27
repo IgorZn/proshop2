@@ -4,14 +4,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import Link from 'next/link'
 import Image from 'next/image'
 import { APP_NAME } from '@/lib/constans'
-import CredentialSignInForm from '@/app/(auth)/sign-in/credential-signin-form'
 import { redirect } from 'next/navigation'
 import { auth } from '@/auth'
+import SignupForm from '@/app/(auth)/sign-up/signup-form'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-	title: 'Sign in',
+	title: 'Sign up',
 }
 
 async function Page(props) {
@@ -28,11 +28,11 @@ async function Page(props) {
 					<Link href={'/'} className={'flex-center'}>
 						<Image src={'/images/logo.svg'} alt={`${APP_NAME}`} width={50} height={50} priority={true} />
 					</Link>
-					<CardTitle className={'text-center'}>Sign in</CardTitle>
-					<CardDescription className={'text-center'}>Sing in to your account</CardDescription>
+					<CardTitle className={'text-center'}>Sign up</CardTitle>
+					<CardDescription className={'text-center'}>Sing up to your account</CardDescription>
 				</CardHeader>
 				<CardContent>
-					<CredentialSignInForm />
+					<SignupForm />
 				</CardContent>
 			</Card>
 		</div>
