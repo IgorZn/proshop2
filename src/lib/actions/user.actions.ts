@@ -36,18 +36,30 @@ export async function signUpAction(prevState: unknown, formData: FormData) {
 
 	if (status.success) {
 		const password = hashPassword(status.data.password)
-		const plainPassword = status.data.password
-		await prisma.user.create({
-			data: {
-				name: status.data.name,
-				email: status.data.email,
-				password,
-			},
-		})
+		// const plainPassword = status.data.password
+		try {
+			const newUser = await prisma.user.create({
+				data: {
+					name: status.data.name,
+					email: status.data.email,
+					password,
+				},
+			})
+		} catch (e) {
+			if (isRedirectError(e.error)) throw e.error
+			const errMsg = {
+				email: 'Email already exists',
+			}
+			return { success: false, message: errMsg[e.meta.target] }
+		}
+
 		// await signIn('credentials', { email: status.data.email, plainPassword })
 		return { success: true, message: 'Signed up successfully' }
 	} else {
+		// console.log('status.error>>>', status.error)
 		if (isRedirectError(status.error)) throw status.error
-		return { success: false, message: 'Invalid credentials' }
+		const set = new Set()
+		Object.entries(status.error.flatten().fieldErrors).map(obj => set.add(obj[1][0]))
+		return { success: false, message: Array.from(set).join('. ') }
 	}
 }

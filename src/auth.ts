@@ -75,10 +75,50 @@ export const authOptions = {
 	],
 
 	callbacks: {
-		async session({ session, user, token }) {
+		async session({ session, user, trigger, token }) {
+			// console.log('session', token)
 			// Set user ID from token
 			session.user.id = token.sub
+			session.user.role = token.role
+			session.user.name = token.name
+
+			// If there is an update, set username
+			if (trigger === 'update') {
+				session.user.id = user.name
+			}
 			return session
+		},
+
+		async jwt({ token, user, account, profile }) {
+			token.booba = 'booba'
+			// console.log('jwt_token, account, profile>>>', token, account, profile)
+			// console.log('jwt_user>>>', user)
+
+			if (user) {
+				token.role = user.role
+
+				if (user.name === 'NO_NAME') {
+					token.name = user.email.split('@')[0]
+
+					// 	Update DB
+					await prisma.user.update({
+						where: {
+							id: user.id,
+						},
+						data: {
+							name: token.name,
+						},
+					})
+				}
+
+				return token
+			}
+			// Persist the OAuth access_token and or the user id to the token right after signin
+			// if (account) {
+			// 	token.accessToken = account.access_token
+			// 	token.id = profile.id
+			// }
+			return token
 		},
 	},
 } satisfies NextAuthOptions
