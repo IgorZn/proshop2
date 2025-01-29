@@ -33,3 +33,22 @@ export const signUpFormValidator = signInFormValidator
 		message: 'Passwords do not match',
 		path: ['confirmPassword'],
 	})
+
+export const crtItemValidator = z.object({
+	productId: z.string().min(1, { message: 'Product id must be at least 1 characters' }),
+	name: z.string().min(1, { message: 'Product name must be at least 1 characters' }),
+	slug: z.string().min(1, { message: 'Product slug must be at least 1 characters' }),
+	image: z.string(),
+	qty: z.coerce.number(),
+	price: currency,
+})
+
+export const insertCrtValidator = z.object({
+	items: z.array(crtItemValidator),
+	itemsPrice: currency,
+	totalPrice: currency,
+	shippingPrice: currency,
+	taxPrice: currency,
+	sessionCartId: z.string().min(1, { message: 'Session cart id is required' }),
+	userId: z.string().optional().nullable(),
+})
