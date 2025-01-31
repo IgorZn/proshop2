@@ -27,7 +27,7 @@ async function UserButton(props) {
 	}
 
 	const firstInitial: string = session.user.name.split(' ')[0][0].toUpperCase()
-	console.log('firstInitial', firstInitial)
+	// console.log('firstInitial', firstInitial)
 	return (
 		<div className={'flex items-center gap-2'}>
 			<DropdownMenu>

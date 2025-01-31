@@ -4,8 +4,8 @@ import { notFound } from 'next/navigation'
 import ProductPrice from '@/components/shared/product/product-price'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import ProductImages from '@/components/shared/product/product-images'
+import AddToCart from '@/components/shared/product/add-to-cart'
 
 async function ProductDetailPage({ params: { slug } }: { params: { slug: string } }) {
 	const product = await getBySlug(slug)
@@ -47,13 +47,20 @@ async function ProductDetailPage({ params: { slug } }: { params: { slug: string 
 								</div>
 								<div className="mb-2 flex justify-between">
 									<p>Status</p>
-									{product.stock > 0 ? (
-										<Badge>In Stock</Badge>
-									) : (
-										<Badge variant="destructive">Out of Stock</Badge>
-									)}
+									{product.stock > 0 ? <Badge>In Stock</Badge> : <Badge variant="destructive">Out of Stock</Badge>}
 								</div>
-								{product.stock > 0 && <Button className={'mt-1 w-full'}>Add to Cart</Button>}
+								{product.stock > 0 && (
+									<AddToCart
+										item={{
+											productId: product.id,
+											name: product.name,
+											slug: product.slug,
+											price: product.price,
+											qty: product.stock,
+											image: product.images![0],
+										}}
+									/>
+								)}
 							</CardContent>
 						</Card>
 					</div>

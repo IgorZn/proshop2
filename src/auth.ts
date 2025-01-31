@@ -125,7 +125,7 @@ export const authOptions = {
 
 export default NextAuth(authOptions)
 
-// export const { signIn, signOut } = NextAuth(authOptions)
+// export const { auth } = NextAuth(authOptions)
 
 export function auth(
 	...args: [GetServerSidePropsContext['req'], GetServerSidePropsContext['res']] | [NextApiRequest, NextApiResponse] | []
