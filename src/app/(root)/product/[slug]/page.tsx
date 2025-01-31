@@ -11,6 +11,7 @@ async function ProductDetailPage({ params: { slug } }: { params: { slug: string 
 	const product = await getBySlug(slug)
 	if (!product) return notFound()
 
+	// console.log('ProductDetailPage>>>', product)
 	return (
 		<>
 			<section>
