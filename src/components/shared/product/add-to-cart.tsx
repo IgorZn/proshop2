@@ -14,7 +14,7 @@ function AddToCart({ item }: { item: CartItem }) {
 	const router = useRouter()
 
 	const handleAddToCart = async () => {
-		console.log('handleAddToCart>>>', item)
+		// console.log('handleAddToCart>>>', item)
 		const res = await addItemToCart(item)
 		if (!res.success) {
 			toast({
