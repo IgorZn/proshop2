@@ -6,11 +6,13 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import ProductImages from '@/components/shared/product/product-images'
 import AddToCart from '@/components/shared/product/add-to-cart'
+import { getMyCrt } from '@/lib/actions/cart.actions'
 
 async function ProductDetailPage({ params: { slug } }: { params: { slug: string } }) {
 	const product = await getBySlug(slug)
 	if (!product) return notFound()
 
+	const cart = await getMyCrt()
 	// console.log('ProductDetailPage>>>', product)
 	return (
 		<>
@@ -52,6 +54,7 @@ async function ProductDetailPage({ params: { slug } }: { params: { slug: string 
 								</div>
 								{product.stock > 0 && (
 									<AddToCart
+										cart={cart}
 										item={{
 											productId: product.id,
 											name: product.name,

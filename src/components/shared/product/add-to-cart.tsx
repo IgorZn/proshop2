@@ -1,15 +1,15 @@
 'use client'
-import { CartItem } from '@/types'
+import { Cart, CartItem } from '@/types'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
-import { Plus } from 'lucide-react'
+import { Plus, Minus } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
 import { ToastAction } from '@/components/ui/toast'
-import { addItemToCart } from '@/lib/actions/cart.actions'
+import { addItemToCart, removeItemFromCart } from '@/lib/actions/cart.actions'
 
 import React from 'react'
 
-function AddToCart({ item }: { item: CartItem }) {
+function AddToCart({ cart, item }: { cart?: Cart; item: CartItem }) {
 	const { toast } = useToast()
 	const router = useRouter()
 
@@ -42,6 +42,53 @@ function AddToCart({ item }: { item: CartItem }) {
 				</ToastAction>
 			),
 		})
+	}
+
+	const handleRemoveFromCart = async () => {
+		const res = await removeItemFromCart(item.productId)
+		console.log('handleRemoveFromCart>>>', res)
+		if (!res.success) {
+			toast({
+				title: 'Error',
+				description: res.message,
+				variant: 'destructive',
+				action: (
+					<ToastAction altText="Try again" onClick={() => router.refresh()}>
+						Try again
+					</ToastAction>
+				),
+			})
+			return
+		} else {
+			toast({
+				title: 'Success',
+				description: `${res.message}, ${item.name} removed from cart`,
+			})
+
+			return
+		}
+	}
+
+	// Check if item exist in cart
+	const existItem = cart && (cart?.items as CartItem[]).find(x => x.productId === item.productId)
+	if (existItem) {
+		return existItem ? (
+			<div className={'mt-5 flex justify-between text-center'}>
+				<Button className={'m-auto'} variant={'outline'} onClick={handleRemoveFromCart}>
+					<Minus />
+				</Button>
+				<span className="m-auto px-2">
+					{existItem.qty} {existItem.qty > 1 ? 'in cart' : 'in cart'}
+				</span>
+				<Button className={'m-auto'} onClick={handleAddToCart}>
+					<Plus />
+				</Button>
+			</div>
+		) : (
+			<Button className={'mt-1 w-full'} onClick={handleAddToCart}>
+				<Plus /> Add to Cart
+			</Button>
+		)
 	}
 
 	return (

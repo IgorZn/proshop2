@@ -188,7 +188,7 @@ export const removeItemFromCart = async (productId: string) => {
 			crt.items = (crt.items as CartItem[]).filter(item => item.productId !== productId)
 		} else {
 			// Decrease item qty
-			;(cart.items as CartItem[]).find(x => x.productId === productId)!.qty -= 1
+			;(crt.items as CartItem[]).find(x => x.productId === productId)!.qty -= 1
 
 			// 	Update cart in DB
 			await prisma.cart.update({
