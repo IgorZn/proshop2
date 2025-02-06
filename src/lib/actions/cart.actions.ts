@@ -101,6 +101,7 @@ export const addItemToCart = async (item: CartItem) => {
 
 				// Update item qty
 				;(cart.items as CartItem[]).find(x => x.productId === parsedItem.productId)!.qty += parsedItem.qty
+				console.log('Update item qty>>>', cart.items)
 			} else {
 				// If item not exist in cart, add it
 				// Check stock
