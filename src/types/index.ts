@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { crtItemValidator, insertCrtValidator, insertProductSchema } from '@/lib/validator'
+import { crtItemValidator, insertCrtValidator, insertProductSchema, shippingAddressValidator } from '@/lib/validator'
 
 export type Product = z.infer<typeof insertProductSchema> & {
 	id: string
@@ -9,3 +9,4 @@ export type Product = z.infer<typeof insertProductSchema> & {
 
 export type Cart = z.infer<typeof insertCrtValidator>
 export type CartItem = z.infer<typeof crtItemValidator>
+export type ShippingAddress = z.infer<typeof shippingAddressValidator>

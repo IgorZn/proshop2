@@ -63,3 +63,15 @@ export async function signUpAction(prevState: unknown, formData: FormData) {
 		return { success: false, message: Array.from(set).join('. ') }
 	}
 }
+
+export async function getUserById(userId: string) {
+	try {
+		const user = await prisma.user.findUnique({
+			where: { id: userId },
+		})
+		return user
+	} catch (e) {
+		if (isRedirectError(e)) throw e
+	}
+	return null
+}

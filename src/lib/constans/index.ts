@@ -4,3 +4,12 @@ export const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhos
 export const LATEST_PRODUCT_LIMIT = Number(process.env.NEXT_PUBLIC_LATEST_PRODUCT_LIMIT) || 4
 export const signInDefaults = { email: '', password: '' }
 export const signUpDefaults = { name: '', email: '', password: '', confirmPassword: '' }
+export const shippingAddressDefaults = {
+	fullName: 'Jon Doe',
+	streetAddress: '123 Main St',
+	city: 'Sometown',
+	postalCode: '12345',
+	country: 'RU',
+	lat: 0,
+	lng: 0,
+}

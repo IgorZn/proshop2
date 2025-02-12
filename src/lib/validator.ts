@@ -52,3 +52,13 @@ export const insertCrtValidator = z.object({
 	sessionCartId: z.string().min(1, { message: 'Session cart id is required' }),
 	userId: z.string().optional().nullable(),
 })
+
+export const shippingAddressValidator = z.object({
+	fullName: z.string().min(3, { message: 'Full name is required' }),
+	streetAddress: z.string().min(3, { message: 'Address is required' }),
+	city: z.string().min(3, { message: 'City is required' }),
+	postalCode: z.string().min(3, { message: 'Postal code is required' }),
+	country: z.string().min(2, { message: 'Country is required' }),
+	lat: z.number().optional(),
+	lng: z.number().optional(),
+})
