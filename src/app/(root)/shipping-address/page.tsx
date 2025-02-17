@@ -6,6 +6,7 @@ import { auth } from '@/auth'
 import { getUserById } from '@/lib/actions/user.actions'
 import ShippingAddressForm from '@/app/(root)/shipping-address/shipping-address-form'
 import { ShippingAddress } from '@/types'
+import CheckoutSteps from '@/components/checkout-steps'
 
 export const metadata: Metadata = {
 	title: 'Shipping Address',
@@ -26,6 +27,7 @@ async function Page(props) {
 
 	return (
 		<>
+			<CheckoutSteps currentStep={1} />
 			<ShippingAddressForm address={user.address as ShippingAddress} />
 		</>
 	)

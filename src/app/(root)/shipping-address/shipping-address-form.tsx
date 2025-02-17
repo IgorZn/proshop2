@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { ArrowRight, Loader } from 'lucide-react'
+import { updateUserAddress } from '@/lib/actions/user.actions'
 
 function ShippingAddressForm({ address }: { address: ShippingAddress }) {
 	const router = useRouter()
@@ -26,6 +27,20 @@ function ShippingAddressForm({ address }: { address: ShippingAddress }) {
 	const [isPending, startTransition] = useTransition()
 
 	const onSubmit = async (values: z.infer<typeof shippingAddressValidator>) => {
+		startTransition(async () => {
+			const res = await updateUserAddress(values)
+			// console.log('startTransition_res>>>', res)
+
+			if (!res.success) {
+				toast({
+					title: 'Error',
+					description: res.message,
+					variant: 'destructive',
+				})
+				return
+			}
+			router.push('/payment-method')
+		})
 		console.log('onSubmit>>>', values)
 		return console.log(values)
 	}

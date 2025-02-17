@@ -5,11 +5,11 @@ export const LATEST_PRODUCT_LIMIT = Number(process.env.NEXT_PUBLIC_LATEST_PRODUC
 export const signInDefaults = { email: '', password: '' }
 export const signUpDefaults = { name: '', email: '', password: '', confirmPassword: '' }
 export const shippingAddressDefaults = {
-	fullName: 'Jon Doe',
-	streetAddress: '123 Main St',
-	city: 'Sometown',
-	postalCode: '12345',
-	country: 'RU',
+	fullName: '',
+	streetAddress: '',
+	city: '',
+	postalCode: '',
+	country: '',
 	lat: 0,
 	lng: 0,
 }

@@ -1,10 +1,13 @@
 'use server'
 
-import { signInFormValidator, signUpFormValidator } from '@/lib/validator'
+import { shippingAddressValidator, signInFormValidator, signUpFormValidator } from '@/lib/validator'
 // import { signOut } from '@/auth'
 import { isRedirectError } from 'next/dist/client/components/redirect'
 import { prisma } from '@/db/prisma'
 import { hashPassword } from '@/utils/userUtils'
+import { date } from 'zod'
+import { auth } from '@/auth'
+import { ShippingAddress } from '@/types'
 
 export async function signInAction(prevState: unknown, formData: FormData) {
 	try {
@@ -74,4 +77,35 @@ export async function getUserById(userId: string) {
 		if (isRedirectError(e)) throw e
 	}
 	return null
+}
+
+export async function updateUserAddress(data: ShippingAddress) {
+	try {
+		const session = await auth()
+		const currentUser = await prisma.user.findFirst({
+			where: {
+				id: session?.user?.id,
+			},
+		})
+
+		if (!currentUser) throw new Error('User not found')
+		const address = shippingAddressValidator.parse(data)
+		console.log('updateUserAddress>>>', address)
+		console.log('updateUserAddress__currentUser>>>', currentUser)
+		await prisma.user
+			.update({
+				where: {
+					id: currentUser.id,
+				},
+				data: {
+					address,
+				},
+			})
+			.then(data => console.log('prisma.user.update>>>', data))
+
+		return { success: true, message: 'Address updated successfully' }
+	} catch (e) {
+		console.log(e.message)
+		return { success: false, message: 'User not found' }
+	}
 }
